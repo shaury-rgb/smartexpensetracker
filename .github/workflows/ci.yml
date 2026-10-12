@@ -21,7 +21,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres -d expense_tracker"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -36,13 +36,19 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Make Maven wrapper executable
+        run: chmod +x ./mvnw
+
       - name: Run Maven Tests
         env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: expense_tracker
           DB_URL: jdbc:postgresql://localhost:5432/expense_tracker
           DB_USERNAME: postgres
           DB_PASSWORD: password
           JWT_SECRET: 9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b
-        run: ./mvnw test
+        run: ./mvnw test -B
 
   frontend-build:
     name: Frontend Build & Test
