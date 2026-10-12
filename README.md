@@ -480,3 +480,4 @@ The project features a continuous integration workflow defined in [`.github/work
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+"# smartexpense_tracker" 
